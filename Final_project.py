@@ -48,7 +48,7 @@ data=data.dropna()
 data=data[~((data['pickup_latitude']==data['dropoff_latitude'])&(data['pickup_longitude']==data['dropoff_longitude']))]
 print(f'After dropping the data, the final shape is {data.shape}')
 
-data=data[~(data['fare_amount']<=4.1)]
+data=data[~(data['fare_amount']<0)]
 print(f'After dropping the data, the final shape is {data.shape}')
 
 data = data[(data.pickup_latitude<90) & (data.dropoff_latitude<90) &
@@ -83,6 +83,14 @@ IQR=q3-q1
 LB=q1-1.5*IQR
 UB=q3+1.5*IQR
 data = data[(data['distance']>=LB) & (data['distance']<=UB) ]
+data.shape
+
+q1=data['fare_amount'].quantile(0.25)
+q3=data['fare_amount'].quantile(0.75)
+IQR=q3-q1
+LB=q1-1.5*IQR
+UB=q3+1.5*IQR
+data = data[(data['fare_amount']>=LB) & (data['fare_amount']<=UB) ]
 data.shape
 
 data.describe()
@@ -134,6 +142,11 @@ xgb_model_mse_test=mean_squared_error(y_test,y_pred_xgb_test)
 
 print(f'Mean Squared Error of train(Xgboost Regression): {xgb_model_mse_train}')
 print(f'Mean Squared Error of test (Xgboost Regression): {xgb_model_mse_test}')
+
+xgb_test=xgb_model.score(x_test,y_test)
+xgb_train=xgb_model.score(x_train,y_train)
+
+
 
 import pickle
 
