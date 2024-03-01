@@ -63,11 +63,6 @@ data['month'] = data.pickup_datetime.dt.month
 data['weekday'] = data.pickup_datetime.dt.weekday
 data['hour'] = data.pickup_datetime.dt.hour
 
-data['Monthly_Quarter'] = data.month.map({1:'Q1',2:'Q1',3:'Q1',4:'Q2',5:'Q2',6:'Q2',7:'Q3',
-                                      8:'Q3',9:'Q3',10:'Q4',11:'Q4',12:'Q4'})
-data['Hourly_Segments'] = data.hour.map({0:'H1',1:'H1',2:'H1',3:'H1',4:'H2',5:'H2',6:'H2',7:'H2',8:'H3',
-                                     9:'H3',10:'H3',11:'H3',12:'H4',13:'H4',14:'H4',15:'H4',16:'H5',
-                                     17:'H5',18:'H5',19:'H5',20:'H6',21:'H6',22:'H6',23:'H6'})
 
 data['distance']=[round(geopy.distance.distance((data.pickup_latitude[i], data.pickup_longitude[i]),(data.dropoff_latitude[i], data.dropoff_longitude[i])).m,2) for i in data.index]
 
@@ -143,10 +138,46 @@ xgb_model_mse_test=mean_squared_error(y_test,y_pred_xgb_test)
 print(f'Mean Squared Error of train(Xgboost Regression): {xgb_model_mse_train}')
 print(f'Mean Squared Error of test (Xgboost Regression): {xgb_model_mse_test}')
 
-xgb_test=xgb_model.score(x_test,y_test)
-xgb_train=xgb_model.score(x_train,y_train)
+LR_model = LinearRegression().fit(x_train, y_train)
+y_pred_LR = LR_model.predict(x_test)
+LR_model_mse = mean_squared_error(y_test, y_pred_LR)
+print(f'Mean Squared Error (Linear Regression): {LR_model_mse}')
 
+huber_model = HuberRegressor()
+huber_model.fit(x_train, y_train)
+y_pred_huber = huber_model.predict(x_test)
+huber_model_mse = mean_squared_error(y_test, y_pred_huber)
+print(f'Mean Squared Error (Huber Regression): {huber_model_mse}')
 
+ridge_model = Ridge(alpha=1.0)
+ridge_model.fit(x_train, y_train)
+y_pred_ridge = ridge_model.predict(x_test)
+ridge_model_mse = mean_squared_error(y_test, y_pred_ridge)
+print(f'Mean Squared Error (Ridge Regression): {ridge_model_mse}')
+
+random_forest_model = RandomForestRegressor(n_estimators=100, random_state=42)
+random_forest_model.fit(x_train, y_train)
+y_pred_rf = random_forest_model.predict(x_test)
+rf_model_mse = mean_squared_error(y_test, y_pred_rf)
+print(f'Mean Squared Error (Random Forest): {rf_model_mse}')
+
+lasso_model = Lasso(alpha=1.0)
+lasso_model.fit(x_train, y_train)
+y_pred_lasso = lasso_model.predict(x_test)
+lasso_model_mse = mean_squared_error(y_test, y_pred_lasso)
+print(f'Mean Squared Error (lasso Regression): {lasso_model_mse}')
+
+elasticnet_model = ElasticNet(alpha=1.0, l1_ratio=0.5)
+elasticnet_model.fit(x_train, y_train)
+y_pred_elasticnet = elasticnet_model.predict(x_test)
+elasticnet_model_mse = mean_squared_error(y_test, y_pred_elasticnet)
+print(f'Mean Squared Error (ElasticNet Regression): {elasticnet_model_mse}')
+
+decision_tree_model = DecisionTreeRegressor(max_depth=None, random_state=42)
+decision_tree_model.fit(x_train, y_train)
+y_pred_decision_tree = decision_tree_model.predict(x_test)
+decision_tree_model_mse = mean_squared_error(y_test, y_pred_decision_tree)
+print(f'Mean Squared Error (SVR): {decision_tree_model_mse}')
 
 import pickle
 
