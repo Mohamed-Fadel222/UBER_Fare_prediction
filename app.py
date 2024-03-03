@@ -1,6 +1,8 @@
 import numpy as np
 from flask import Flask, request, jsonify, render_template
+from flask_frozen  import Freezer
 import pickle
+
 
 # Create flask app
 flask_app = Flask(__name__)
@@ -19,4 +21,5 @@ def predict():
     return render_template("index.html", prediction_text = "The Uber Fare is {}".format(prediction))
 
 if __name__ == "__main__":
-    flask_app.run(debug=True)
+    freezer = Freezer(flask_app)
+    freezer.freeze()
