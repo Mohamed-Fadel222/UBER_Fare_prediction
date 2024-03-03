@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+
+</head>
+
+<body>
+ <div class="login">
+	<h1>UBER fare prediction</h1>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="/predict"method="post">
+        <input type="text" name="pickup_longitude" placeholder="pickup_longitude" required="required" />
+		<input type="text" name="pickup_latitude" placeholder="pickup_latitude" required="required" />
+		<input type="text" name="dropoff_longitude" placeholder="dropoff_longitude" required="required" />
+        <input type="text" name="dropoff_latitude" placeholder="dropoff_latitude" required="required" />
+		<input type="text" name="year" placeholder="year" required="required" />
+		<input type="text" name="weekday" placeholder="weekday" required="required" />
+        <input type="text" name="Monthly_Quarter" placeholder="Monthly_Quarter" required="required" />
+		<input type="text" name="Hourly_Segments" placeholder="Hourly_Segments" required="required" />
+		<input type="text" name="distance" placeholder="distance" required="required" />
+        
+        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+   <br>
+   <br>
+   
+
+ </div>
+
+
+</body>
+</html>
